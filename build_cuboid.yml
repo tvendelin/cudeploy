@@ -1,0 +1,5 @@
+---
+- name: 'Build cuboid'
+  hosts: localhost
+  roles:
+    - cuboid
