@@ -43,10 +43,10 @@
       - 'www-data'
     append: yes
 
-- name: 'Copy wsgi.ini'
+- name: 'Copy config dir'
   copy:
-    src: 'wsgi.ini'
-    dest: '/opt/wsgi.ini'
+    src: 'cuboidapp'
+    dest: '/opt/'
     mode: 0644
     owner: cuboid
 

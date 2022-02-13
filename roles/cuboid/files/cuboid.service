@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=cuboid
 Group=www-data
-ExecStart=/opt/cuboid/bin/uwsgi --ini /opt/wsgi.ini
+ExecStart=/opt/cuboid/bin/uwsgi --ini /opt/cuboidapp/etc/wsgi.ini
 
 [Install]
 WantedBy=multi-user.target
