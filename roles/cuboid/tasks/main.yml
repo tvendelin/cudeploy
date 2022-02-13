@@ -4,6 +4,7 @@
     name: 
       - 'nginx'
       - 'python3-pip'
+      - 'python3-venv'
 
 - name: 'Find exact name of a wheel'
   find:
@@ -13,6 +14,7 @@
     patterns:
       - 'cuboid-*.whl'
   register: the_wheel
+  delegate_to: localhost
 
 - name: 'Wheel name as a fact'
   set_fact:
