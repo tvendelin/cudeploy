@@ -68,3 +68,14 @@
     name: 'cuboid.service'
     state: started
     enabled: yes
+
+- name: 'nginx config as proxy'
+  copy: 
+    src: 'nginx_cuboid_config'
+    dest: '/etc/nginx/sites-available/'
+    
+- name: 'Activate nginx proxy config'
+  file:
+    state: link
+    src: '/etc/nginx/sites-available/nginx_cuboid_config'
+    path: '/etc/nginx/sites-enabled/'
