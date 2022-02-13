@@ -76,7 +76,7 @@
 - name: 'Disable default nginx site'
   file:
     state: absent
-    path: '/etc/nginx/sites-enabled/nginx_cuboid_config'
+    path: '/etc/nginx/sites-enabled/default'
 
 - name: 'nginx config as proxy'
   copy: 
