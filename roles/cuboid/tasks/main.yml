@@ -7,6 +7,7 @@
       - 'python3-venv'
       - 'libpcre3'
       - 'libpcre3-dev'
+      - 'vim'
 
 - name: 'Find exact name of a wheel'
   find:
@@ -71,6 +72,11 @@
     name: 'cuboid.service'
     state: started
     enabled: yes
+
+- name: 'Disable default nginx site'
+  file:
+    state: absent
+    path: '/etc/nginx/sites-enabled/nginx_cuboid_config'
 
 - name: 'nginx config as proxy'
   copy: 
