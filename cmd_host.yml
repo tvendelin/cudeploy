@@ -1,0 +1,34 @@
+---
+- name: 'cmd_host'
+  remote_user: root
+  hosts: deployment
+  roles:
+    - base
+    - cmd_host
+  post_tasks:
+    - name: 'Read the ansible ssh pub key'
+      slurp:
+        path: '/tmp/ansible.pub'
+      register: slurped_key
+      delegate_to: localhost
+
+    - name: 'Set ansible_ssh_pub'
+      set_fact:
+        ansible_ssh_pub: "{{slurped_key['content'] | b64decode}}"
+        cacheable: yes
+
+
+- name: 'ansible ssh pub key'
+  hosts: all
+  tasks:
+    - setup:
+
+    - debug:
+        msg: "{{hostvars['85.215.221.22']['ansible_ssh_pub']}}"
+
+    - name: 'Propagate ansible ssh public key'
+      lineinfile:
+        path: '/root/.ssh/authorized_keys'
+        line: "{{hostvars[groups['deployment'][0]]['ansible_ssh_pub']}}"
+ 
+

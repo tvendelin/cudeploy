@@ -1,18 +1,35 @@
 ---
-- name: 'Install the tools'
+- name: 'Install packages'
   package:
+    name: 
+      - 'nginx'
+      - 'python3-pip'
+
+- name: 'Find exact name of a wheel'
+  find:
+    paths:
+      - "{{project.stage_dir}}/dist"
+    file_type: file
+    patterns:
+      - 'cuboid-*.whl'
+  register: the_wheel
+
+- name: 'Wheel name as a fact'
+  set_fact:
+    wheel_path: "{{the_wheel['files'][0]['path']}}"
+    wheel_name: "{{the_wheel['files'][0]['path'] | basename}}"
+
+- name: 'Copy the wheel'
+  copy:
+    src: "{{wheel_path}}"
+    dest: "/tmp/{{wheel_name}}"
+
+- name: 'Install in venv'
+  pip:
     name:
-      - 'git'
-      - 'cmake'
+      - pip
+      - wheel
+      - "/tmp/{{wheel_name}}"
     state: latest
-
-- name: 'Clone the project'
-  git:
-    repo: "{{project.repo}}"
-    dest: "{{project.stage_dir}}"
-
-- name: 'Build'
-  make:
-    chdir: "{{project.stage_dir}}"
-
-
+    virtualenv: "{{cuboid_dir}}"
+    virtualenv_command: python3 -m venv

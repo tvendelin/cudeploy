@@ -1,0 +1,64 @@
+---
+- name: 'Install the tools'
+  package:
+    name:
+      - 'git'
+      - 'make'
+      - 'python3-pip'
+      - 'python3-venv'
+        #- 'libffi-dev'
+    state: latest
+
+- name: 'Install Ansible with pip'
+  pip:
+    name:
+      - pip
+      - wheel
+      - ansible
+    state: latest
+    virtualenv: '/root/ans'
+    virtualenv_command: python3 -m venv 
+
+- name: 'ansible.cfg'
+  copy:
+    src: ansible.cfg
+    dest: '/root/.ansible.cfg' 
+    mode: 0700
+
+- name: 'ansible hosts file'
+  copy:
+    src: hosts.yml
+    dest: ansible_hosts.yml
+    mode: 0700
+
+- name: 'Generate ssh key pair for ansible'
+  openssh_keypair:
+    path: '/root/.ssh/ansible'
+    size: 2048
+    type: rsa
+    owner: root
+    group: root
+    mode: 0600
+    comment: ansible
+
+- name: 'Fetch ansible ssh pub key'
+  fetch:
+    src: '/root/.ssh/ansible.pub'
+    dest: '/tmp/ansible.pub'
+    flat: yes
+
+- name: 'Create git repo directory'
+  file:
+    path: "{{project.repo}}"
+    state: directory
+    mode: 0700
+
+- name: 'Create bare git repo if not exists'
+  command:
+    cmd: git init --bare
+    chdir: "{{project.repo}}"
+    creates: "{{project.repo}}/.git"
+
+
+
+

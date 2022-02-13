@@ -1,5 +1,17 @@
 ---
 - name: 'Build cuboid'
   hosts: localhost
-  roles:
-    - cuboid
+  tasks:
+    - name: 'Clone the project'
+      git:
+        repo: "{{project.repo}}"
+        dest: "{{project.stage_dir}}"
+    
+    - name: 'Empty dist directory'
+      file:
+        path: "{{project.stage_dir}}/dist"
+        state: absent
+
+    - name: 'Build'
+      make:
+        chdir: "{{project.stage_dir}}"

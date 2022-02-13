@@ -1,0 +1,6 @@
+---
+- name: 'Add ssh public keys'
+  lineinfile:
+    path: '.ssh/authorized_keys'
+    line: "{{item}}"
+  loop: "{{ssh_pub_keys}}"
