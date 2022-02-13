@@ -29,7 +29,7 @@
 
 - name: 'ansible hosts file'
   copy:
-    src: hosts.yml
+    src: ansible_hosts.yml
     dest: ansible_hosts.yml
     mode: 0700
 
