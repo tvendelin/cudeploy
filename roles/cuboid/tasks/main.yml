@@ -63,6 +63,9 @@
     - systemd_reload
     - cuboid_restart
 
+- name: 'Flush handlers'
+  meta: flush_handlers
+
 - name: 'Cuboid systemd service'
   systemd:
     name: 'cuboid.service'
@@ -73,9 +76,18 @@
   copy: 
     src: 'nginx_cuboid_config'
     dest: '/etc/nginx/sites-available/'
+  notify: nginx_restart
     
 - name: 'Activate nginx proxy config'
   file:
     state: link
     src: '/etc/nginx/sites-available/nginx_cuboid_config'
     path: '/etc/nginx/sites-enabled/'
+  notify: nginx_restart
+
+- name: 'nginx service'
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
