@@ -82,7 +82,7 @@
   file:
     state: link
     src: '/etc/nginx/sites-available/nginx_cuboid_config'
-    path: '/etc/nginx/sites-enabled/'
+    path: '/etc/nginx/sites-enabled/nginx_cuboid_config'
   notify: nginx_restart
 
 - name: 'nginx service'
