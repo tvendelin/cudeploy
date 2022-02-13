@@ -1,7 +1,7 @@
 ---
-- name: 'Build and deploy cuboid'
+- name: 'Build cuboid'
   hosts: localhost
-  pre_tasks:
+  tasks:
     - name: 'Clone the project'
       git:
         repo: "{{project.repo}}"
@@ -16,5 +16,7 @@
       make:
         chdir: "{{project.stage_dir}}"
 
+- name: 'Deploy cuboid'
+  hosts: cuboid
   roles:
     - cuboid
