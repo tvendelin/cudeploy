@@ -1,0 +1,8 @@
+- name: systemd_reload
+  systemd:
+    daemon_reload: yes
+
+- name: cuboid_restart
+  systemd:
+    name: 'cuboid.service'
+    state: restarted

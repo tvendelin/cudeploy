@@ -35,3 +35,34 @@
     state: latest
     virtualenv: "{{cuboid_dir}}"
     virtualenv_command: python3 -m venv
+
+- name: 'Create user cuboid for running a wsgi app'
+  user:
+    name: cuboid
+    groups:
+      - 'www-data'
+    append: yes
+
+- name: 'Copy wsgi.ini'
+  copy:
+    src: 'wsgi.ini'
+    dest: '/opt/wsgi.ini'
+    mode: 0644
+    owner: cuboid
+
+- name: 'systemd service'
+  copy:
+    src: 'cuboid.service'
+    dest: '/etc/systemd/system/'
+    mode: 0644
+    owner: root
+    group: root
+  notify: 
+    - systemd_reload
+    - cuboid_restart
+
+- name: 'Cuboid systemd service'
+  systemd:
+    name: 'cuboid.service'
+    state: started
+    enabled: yes
