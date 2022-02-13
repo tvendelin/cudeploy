@@ -49,15 +49,24 @@
 
 - name: 'Create git repo directory'
   file:
-    path: "{{project.repo}}"
+    path: "{{item}}"
     state: directory
     mode: 0700
+  with_items:
+    - "{{project.repo}}"
+    - "{{ansible_repo}}"
 
-- name: 'Create bare git repo if not exists'
+- name: 'Create bare git repo for cuboid if not exists'
   command:
     cmd: git init --bare
     chdir: "{{project.repo}}"
     creates: "{{project.repo}}/.git"
+
+- name: 'Create bare git repo for ansible if not exists'
+  command:
+    cmd: git init --bare
+    chdir: "{{ansible_repo}}"
+    creates: "{{ansible_repo}}/.git"
 
 
 
