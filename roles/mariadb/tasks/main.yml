@@ -11,6 +11,7 @@
     dest: '/root/mariadb_init.sh'
     owner: root
     mode: 0700
+  register: db_setup
 
 - name: 'Mariadb service'
   systemd:
@@ -21,7 +22,7 @@
 - name: 'Run the setup script'
   command:
     cmd: '/root/mariadb_init.sh'
-  when: mariadb_package.changed
+  when: mariadb_package.changed or db_setup.changed
 
 - name: 'Copy config'
   copy:

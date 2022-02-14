@@ -8,4 +8,19 @@ mysql --user=root <<EOF
   GRANT ALL ON *.* TO '{{mariadb.admin_user}}'@'localhost' IDENTIFIED BY '{{mariadb.admin_password}}' WITH GRANT OPTION;
   GRANT ALL PRIVILEGES ON {{mariadb.app_db}}.* TO 'app_user'@'%' IDENTIFIED BY '{{mariadb.app_password}}';
   FLUSH PRIVILEGES;
+
+  CREATE DATABASE IF NOT EXISTS {{mariadb.app_db}};
+  USE {{mariadb.app_db}};
+
+  CREATE TABLE IF NOT EXISTS cuboid (
+    a DECIMAL NOT NULL,
+    b DECIMAL NOT NULL,
+    c DECIMAL NOT NULL,
+    vol DECIMAL,
+    surf DECIMAL,
+    per DECIMAL,
+
+    CONSTRAINT cuboid_pk PRIMARY KEY(a, b, c)
+  );
 EOF
+
