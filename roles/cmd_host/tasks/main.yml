@@ -8,6 +8,7 @@
       - 'python3-venv'
       - 'libpcre3' 
       - 'libpcre3-dev'
+      - 'libmariadb-dev'
       - 'vim'
     state: latest
 
