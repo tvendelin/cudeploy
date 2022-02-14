@@ -68,6 +68,15 @@
   notify: 
     - cuboid_restart
 
+- name: 'Create log dir'
+  file:
+    path: '/opt/cuboid/log'
+    state: directory
+    mode: 0755
+    owner: cuboid
+  notify: 
+    - cuboid_restart
+
 - name: 'Copy wsgi config'
   copy: 
     src: 'wsgi.ini'
