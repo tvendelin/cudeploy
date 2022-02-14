@@ -38,6 +38,8 @@
     state: latest
     virtualenv: "{{cuboid_dir}}"
     virtualenv_command: python3 -m venv
+  notify: 
+    - cuboid_restart
 
 - name: 'Create user cuboid for running a wsgi app'
   user:
