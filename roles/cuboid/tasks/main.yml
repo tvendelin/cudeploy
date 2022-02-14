@@ -52,9 +52,18 @@
     state: directory
     mode: 0755
     owner: root
-  with_items:
-    - '/opt/cuboid/etc'
-    - '/opt/cuboid/run'
+  notify: 
+    - cuboid_restart
+
+- name: 'socket dir for cuboid'
+  file:
+    path: '/opt/cuboid/run'
+    state: directory
+    owner: cuboid
+    group: 'www-data'
+    mode: 0775
+  notify: 
+    - cuboid_restart
 
 - name: 'Copy wsgi config'
   copy: 
@@ -62,13 +71,17 @@
     dest: '/opt/cuboid/etc/'
     mode: 0644
     owner: root
+  notify: 
+    - cuboid_restart
 
 - name: 'Copy app config'
   template:
     src: 'cuboid.cfg.j2'
-    dest: '/opt/cuboid/etc/'
+    dest: '/opt/cuboid/etc/cuboid.cfg'
     mode: 0644
     owner: root
+  notify: 
+    - cuboid_restart
 
 - name: 'systemd service'
   copy:
