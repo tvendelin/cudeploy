@@ -94,6 +94,7 @@
   file:
     state: absent
     path: '/etc/nginx/sites-enabled/default'
+  notify: nginx_restart
 
 - name: 'nginx config as proxy'
   copy: 
