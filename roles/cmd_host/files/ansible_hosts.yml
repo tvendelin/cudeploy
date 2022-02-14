@@ -3,6 +3,14 @@ all:
     project:
       repo: '/root/cuboid.git/.git'
       stage_dir: '/root/stage'
+
+    mariadb:
+      admin_user: admin
+      admin_password: 'MargaretTHATCHERis110%SEXY'
+      app_user: cuboid
+      app_password: 'GoetterdaemmerungMussFliegen'
+      app_db: cuboid
+
     ssh_pub_keys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDopS2Gw1Kf93QFj/UclZwtSB+74A82zLW8ndSw519U7CAUYTPnFDgjknPvMIyf0Nc2KDMfE5+7Mt3UARm6FbiRoSbbdsyjWdjAnZYV84ir2LTuoSQJL0bJCtkQ+ghE8ywGhU+HslTh7WOo6G3CcEtPe89dFCKm2uTzOf3h75ouHqsYnP+UFUFxsylilNhZkNRo4GW9OgWQQVDtUdDenfeHlj17wIBqyhiwvj6Xw5TPEJZU3rVOsSd0KboWxheLbA/sIDtfT+Kdb2DB+TwjHuciCiXyutOY4zq7E7s9TfRVb0XyaZeyF+u9P3tSKeedUc3wf6CxzwJdHOeJYbfH7YS5 thomas.moericke'
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3nRFGFfof+N7GuTdY3n5DXlSgzgx38UPT0AZvQXVHNs0xatBd6TB59DBXsFqQ3999cqVYcFoWS55PIIo9kPgTBYIBvqzDcxHf/cOlE9ncNOsfdKsqZOYTDaPe5shdoBCN+bTZrfLuv+q5GlzLyhzE2lsKyDvuH+yrcSGpOONd1WjUyjNhYVaE/pW+XxLFUwu7Ey7gBFbhL2cHT5y0sjCyzTYEcGZJCmzie6WVFXDycKxtSCNinx14LWPn4CG8Dw2mC2y8rnZ/P4i5r1oDrdLngv6JBCknCvF4sYE49MayYZJqBEdNZiVSS0gT6rvFDYZiLEneEbXFpS86QFda+hRn elmar.gerdes'
@@ -19,8 +27,9 @@ all:
         85.215.239.34
       vars:
         cuboid_dir: '/opt/cuboid'
-    masha:
+    mariadb:
       hosts:
         85.215.233.125
+      
 
 

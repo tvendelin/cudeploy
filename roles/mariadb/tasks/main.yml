@@ -1,0 +1,30 @@
+---
+- name: 'Install MariaDB'
+  package:
+    name: 'mariadb-server'
+    state: latest
+  register: mariadb_package
+
+- name: 'Copy the setup script'
+  template:
+    src: 'mariadb_init.sh.j2'
+    dest: '/root/mariadb_init.sh'
+    owner: root
+    mode: 0700
+
+- name: 'Mariadb service'
+  systemd:
+    name: 'mariadb'
+    state: started
+    enabled: yes
+
+- name: 'Run the setup script'
+  command:
+    cmd: '/root/mariadb_init.sh'
+  when: mariadb_package.changed
+
+- name: 'Copy config'
+  copy:
+    src: '50-server.cnf'
+    dest: '/etc/mysql/mariadb.conf.d/50-server.cnf'
+  notify: mariadb_restart

@@ -1,0 +1,7 @@
+---
+- name: 'mariadb'
+  remote_user: root
+  hosts: mariadb
+  roles:
+    - base
+    - mariadb
