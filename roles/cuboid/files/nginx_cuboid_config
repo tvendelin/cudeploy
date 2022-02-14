@@ -3,6 +3,6 @@ server {
 
     location / {
         include uwsgi_params;
-        uwsgi_pass unix:///opt/cuboidapp/run/cuboid.sock;
+        uwsgi_pass unix:///opt/cuboid/run/cuboid.sock;
     }
 }

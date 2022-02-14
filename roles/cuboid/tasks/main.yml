@@ -46,12 +46,29 @@
       - 'www-data'
     append: yes
 
-- name: 'Copy config dir'
-  copy:
-    src: 'cuboidapp'
-    dest: '/opt/'
+- name: 'Create config dir'
+  file:
+    path: '/opt/cuboid/etc'
+    state: directory
+    mode: 0755
+    owner: root
+  with_items:
+    - '/opt/cuboid/etc'
+    - '/opt/cuboid/run'
+
+- name: 'Copy wsgi config'
+  copy: 
+    src: 'wsgi.ini'
+    dest: '/opt/cuboid/etc/'
     mode: 0644
-    owner: cuboid
+    owner: root
+
+- name: 'Copy app config'
+  template:
+    src: 'cuboid.cfg.j2'
+    dest: '/opt/cuboid/etc/'
+    mode: 0644
+    owner: root
 
 - name: 'systemd service'
   copy:

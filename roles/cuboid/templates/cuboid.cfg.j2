@@ -1,0 +1,5 @@
+DB_USER="{{mariadb.app_user}}",
+DB_PASSWORD="mariadb.app_password",
+DB_HOST="{{groups['mariadb'][0]['inventory_hostname']}}",
+DB_PORT=3306,
+DB_DATABASE="{{app_db}}"
