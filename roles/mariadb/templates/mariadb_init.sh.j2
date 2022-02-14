@@ -6,7 +6,7 @@ mysql --user=root <<EOF
   DROP DATABASE IF EXISTS test;
   DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
   GRANT ALL ON *.* TO '{{mariadb.admin_user}}'@'localhost' IDENTIFIED BY '{{mariadb.admin_password}}' WITH GRANT OPTION;
-  GRANT ALL PRIVILEGES ON {{mariadb.app_db}}.* TO 'app_user'@'%' IDENTIFIED BY '{{mariadb.app_password}}';
+  GRANT ALL PRIVILEGES ON {{mariadb.app_db}}.* TO '{{mariadb.app_user}}'@'%' IDENTIFIED BY '{{mariadb.app_password}}';
   FLUSH PRIVILEGES;
 
   CREATE DATABASE IF NOT EXISTS {{mariadb.app_db}};
@@ -19,6 +19,7 @@ mysql --user=root <<EOF
     vol DECIMAL,
     surf DECIMAL,
     per DECIMAL,
+    tstamp TIMESTAMP
 
     CONSTRAINT cuboid_pk PRIMARY KEY(a, b, c)
   );
