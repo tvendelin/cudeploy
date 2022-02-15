@@ -1,8 +1,10 @@
 ok: [200,201,202,203,204,205,206]
 
-knownsrv: []
+knownsrv: {}
 knownNics: []
-knownVolumes: []
+knownVolumes: {}
+lanOK: false
+ips: {}
 
 contract:
   url: 'https://api.ionos.com/cloudapi/v6'
@@ -14,6 +16,11 @@ rz:
     name: 'DevOps Autotest'
     location: 'de/txl'
     secAuthProtection: false
+
+lan:
+  properties:
+    name: 'foo'
+    public: true
 
 servers:
   - properties:
@@ -57,6 +64,7 @@ volumes:
      image: 'ef452aa5-8307-11ec-bda6-02086196891f'
      bus: VIRTIO
      imagePassword: 'ionos1u1'
+     sshKeys: ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDw3aw63qxwYf41pvWKblNl80KzFRPtw160lihhJYqWvwHJhQk090UzrYJuRsYZrW9TU0uezRBOQS6RNX68djgpJenehA9visBtOxODfZFnw/0KZKPS0+/gMskWtvcXHm475e7HNv+cesXcMyYV5cxW7ObyI+N3CAoYXUN5V+y+IMY8WLzMNGD049wzUyRThcvG7NC1E9TYU1g6I+awQ1lLCr4htWNeSGXW5kCZRFjN9M2d0yvHN926/yA7Gaw4Bp8V4HOWQycqeniLZ0YOybn7PAzAxe85CjnhHSTjVDLmr3YBnLwPLN3XEiJ6ZZDKdRxQZw2sXl9XnSrMmYApvlBjpWQ3x0ptTYYBXkhrqjrIOyoBVPayGVnVzUulOeZwnhM+PutCoV1rVENADjxr8fRBDNnCLa+ZTjoebk4mpMk+zRuWbBwn/3ZRUiFEoRndfkBGK8DJQmzXDI6+qm3bSRIZ+87NH+yMRSi2URaDWDcMXaIo9KQWMTF2Ge/F0Go42Lk= tom@bomdia']
 
   mariadb:
    properties:

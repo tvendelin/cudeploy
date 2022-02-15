@@ -18,7 +18,31 @@
     cacheable: yes
   when: rz_id is not defined
 
-- name: 'Create server'
+- name: 'Create LAN'
+  uri:
+    url: "{{rz_href}}/lans"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: POST
+    body_format: json
+    body: "{{lan}}"
+    status_code: "{{ok}}"
+  register: result
+  when: not lanOK
+
+- debug:
+    msg: "{{result}}"
+
+- name: 'LAN existence for fact'
+  set_fact:
+    lanOK: true
+    cacheable: yes
+  when: result.json is defined
+
+- debug:
+    msg: "{{lanOK}}"
+
+- name: 'Create servers'
   uri:
     url: "{{rz_href}}/servers"
     url_username: "{{contract.user}}"
@@ -31,9 +55,6 @@
   register: result
   when: knownsrv[item.properties.name] is not defined
 
-- debug:
-    msg: "{{result}}"
-    
 - name: 'Populate knownsrv'
   set_fact:
     knownsrv: "{{knownsrv | combine( { item.json.properties.name: item.json.href})}}"
@@ -105,5 +126,29 @@
         id: "{{knownVolumes[item.key]}}"
     status_code: "{{ok}}"
   loop: "{{ knownsrv | dict2items }}"
+
+- name: 'Get server IPs'
+  uri:
+    url: "{{item.value}}/nics?depth=1"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: GET
+    body_format: json
+    status_code: "{{ok}}"
+  loop: "{{ knownsrv | dict2items }}"
+  register: result
+
+- debug:
+    msg: "{{result.results[0].json['items'][0].properties}}"
+    verbosity: 1
+
+- name: 'Set IPs'
+  set_fact:
+    ips: "{{ips | combine( { item.json['items'][0].properties.name: item.json['items'][0].properties.ips[0]})}}"
+    cacheable: yes
+  loop: "{{result.results}}"
+    
+- debug:
+    msg: "{{ips}}"
 
 
