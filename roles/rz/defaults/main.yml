@@ -1,0 +1,70 @@
+ok: [200,201,202,203,204,205,206]
+
+knownsrv: []
+knownNics: []
+knownVolumes: []
+
+contract:
+  url: 'https://api.ionos.com/cloudapi/v6'
+  user: 'platform-compute-assessment+4@cloud.ionos.com'
+  password: 'scewd/2Ov'
+
+rz:
+  properties:
+    name: 'DevOps Autotest'
+    location: 'de/txl'
+    secAuthProtection: false
+
+servers:
+  - properties:
+      name: cuboid
+      cores: 1
+      ram: 2048
+      availabilityZone: 'AUTO' 
+      cpuFamily: 'INTEL_SKYLAKE'
+      type: 'ENTERPRISE'
+
+  - properties:
+      name: mariadb
+      cores: 1
+      ram: 2048
+      availabilityZone: 'AUTO' 
+      cpuFamily: 'INTEL_SKYLAKE'
+      type: 'ENTERPRISE'
+nics:
+  cuboid:
+    properties:
+      name: cuboid
+      lan: 1
+      dhcp: true
+      firewallActive: false
+      firewallType: 'INGRESS'
+
+  mariadb:
+    properties:
+      name: mariadb
+      lan: 1
+      dhcp: true
+      firewallActive: false
+      firewallType: 'INGRESS'
+     
+volumes:
+  cuboid:
+   properties:
+     name: cuboid
+     type: HDD
+     size: 10
+     image: 'ef452aa5-8307-11ec-bda6-02086196891f'
+     bus: VIRTIO
+     imagePassword: 'ionos1u1'
+
+  mariadb:
+   properties:
+     name: mariadb
+     type: HDD
+     size: 10
+     image: 'ef452aa5-8307-11ec-bda6-02086196891f'
+     bus: VIRTIO
+     imagePassword: 'ionos1u1'
+
+

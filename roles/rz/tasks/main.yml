@@ -1,0 +1,109 @@
+---
+- name: 'Create Datacenter'
+  uri:
+    url: "{{contract.url}}/datacenters"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: POST
+    body_format: json
+    body: "{{rz}}"
+    status_code: "{{ok}}"
+  register: result
+  when: rz_id is not defined
+
+- name: 'Set DC id as a fact'
+  set_fact: 
+    rz_id: "{{result.json.id}}"
+    rz_href: "{{result.json.href}}"
+    cacheable: yes
+  when: rz_id is not defined
+
+- name: 'Create server'
+  uri:
+    url: "{{rz_href}}/servers"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: POST
+    body_format: json
+    body: "{{item}}"
+    status_code: "{{ok}}"
+  loop: "{{servers}}"
+  register: result
+  when: knownsrv[item.properties.name] is not defined
+
+- debug:
+    msg: "{{result}}"
+    
+- name: 'Populate knownsrv'
+  set_fact:
+    knownsrv: "{{knownsrv | combine( { item.json.properties.name: item.json.href})}}"
+    cacheable: yes
+  loop: "{{result.results}}"
+  when: item.skipped is not defined
+
+- debug:
+    msg: "{{knownsrv}}"
+
+- debug:
+    msg: "{{knownNics}}"
+
+- name: 'Create nic'
+  uri:
+    url: "{{item.value}}/nics"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: POST
+    body_format: json
+    body: "{{nics[item.key]}}"
+    status_code: "{{ok}}"
+  loop: "{{ knownsrv | dict2items }}"
+  register: result
+  when: item.key is not in knownNics
+
+- debug:
+    msg: "{{result}}"
+
+- name: 'Populate knownNics'
+  set_fact: 
+    knownNics: "{{knownNics + [item.json.properties.name]}}"
+    cacheable: yes
+  loop: "{{result.results}}"
+  when: item.skipped is not defined
+
+- name: 'Create volume'
+  uri:
+    url: "{{item.value}}/volumes"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: POST
+    body_format: json
+    body: "{{volumes[item.key]}}"
+    status_code: "{{ok}}"
+  loop: "{{ knownsrv | dict2items }}"
+  register: result
+  when: item.key is not in knownVolumes
+
+- debug:
+    msg: "{{result}}"
+
+- name: 'Populate knownVolumes'
+  set_fact: 
+    knownVolumes: "{{knownVolumes | combine( { item.json.properties.name: item.json.id})}}"
+    cacheable: yes
+  loop: "{{result.results}}"
+  when: item.skipped is not defined
+
+- name: 'Attach boot volume'
+  uri:
+    url: "{{item.value}}"
+    url_username: "{{contract.user}}"
+    url_password: "{{contract.password}}"
+    method: PATCH
+    body_format: json
+    body: 
+      bootVolume:
+        id: "{{knownVolumes[item.key]}}"
+    status_code: "{{ok}}"
+  loop: "{{ knownsrv | dict2items }}"
+
+
