@@ -80,6 +80,9 @@
   loop: "{{ knownsrv | dict2items }}"
   register: result
   when: item.key is not in knownNics
+  until: not result.failed
+  retries: 10
+  delay: 15
 
 - debug:
     msg: "{{result}}"
@@ -103,6 +106,9 @@
   loop: "{{ knownsrv | dict2items }}"
   register: result
   when: item.key is not in knownVolumes
+  until: not result.failed
+  retries: 10
+  delay: 15
 
 - debug:
     msg: "{{result}}"
@@ -126,6 +132,10 @@
         id: "{{knownVolumes[item.key]}}"
     status_code: "{{ok}}"
   loop: "{{ knownsrv | dict2items }}"
+  register: result
+  until: not result.failed
+  retries: 10
+  delay: 15
 
 - name: 'Get server IPs'
   uri:
@@ -150,5 +160,14 @@
     
 - debug:
     msg: "{{ips}}"
+
+- name: 'Add hosts to the inventory'
+  add_host:
+    name: "{{item.value}}"
+    groups: "{{item.key}}"
+  loop: "{{ ips | dict2items }}"
+
+- debug:
+    msg: "{{hostvars['localhost']['ansible_facts']['ips']['mariadb']}}"
 
 

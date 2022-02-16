@@ -6,6 +6,10 @@ knownVolumes: {}
 lanOK: false
 ips: {}
 
+ssh_keys:
+  - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC71N9QKa51ZXD0dWNriOUFSOiqyEbNa6D60rXKoVqc/SVVsZoMMPJMUGZLVG2wjen1ve6F8f1zl5aqYixyb97dnWvlpmRgm3c6ktVpf37BwT4Nnhq+hpqG3uTHDh0Dnv5sfCAWhJdKBoNxLq1SLamBLY8dZgbrLLSAPzkr3b0sihrHkYu9NU4+nFdTf1KZOqO23m/H3OqKE2Fmzzmbr/0KVzKgrH5YsFVdgP5mDwyOo975tqGkNFTpABUsD6bbYsDsgFM6lioonIjlTF98GZiUCw4BbeqTBNT3G5i5DX2ldGi268l2DQnCtxFcOb4rb3wpPC9bjJsNe1TNI1tqPyYB ansible'
+  - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDw3aw63qxwYf41pvWKblNl80KzFRPtw160lihhJYqWvwHJhQk090UzrYJuRsYZrW9TU0uezRBOQS6RNX68djgpJenehA9visBtOxODfZFnw/0KZKPS0+/gMskWtvcXHm475e7HNv+cesXcMyYV5cxW7ObyI+N3CAoYXUN5V+y+IMY8WLzMNGD049wzUyRThcvG7NC1E9TYU1g6I+awQ1lLCr4htWNeSGXW5kCZRFjN9M2d0yvHN926/yA7Gaw4Bp8V4HOWQycqeniLZ0YOybn7PAzAxe85CjnhHSTjVDLmr3YBnLwPLN3XEiJ6ZZDKdRxQZw2sXl9XnSrMmYApvlBjpWQ3x0ptTYYBXkhrqjrIOyoBVPayGVnVzUulOeZwnhM+PutCoV1rVENADjxr8fRBDNnCLa+ZTjoebk4mpMk+zRuWbBwn/3ZRUiFEoRndfkBGK8DJQmzXDI6+qm3bSRIZ+87NH+yMRSi2URaDWDcMXaIo9KQWMTF2Ge/F0Go42Lk= tom@bomdia'
+
 contract:
   url: 'https://api.ionos.com/cloudapi/v6'
   user: 'platform-compute-assessment+4@cloud.ionos.com'
@@ -64,7 +68,7 @@ volumes:
      image: 'ef452aa5-8307-11ec-bda6-02086196891f'
      bus: VIRTIO
      imagePassword: 'ionos1u1'
-     sshKeys: ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDw3aw63qxwYf41pvWKblNl80KzFRPtw160lihhJYqWvwHJhQk090UzrYJuRsYZrW9TU0uezRBOQS6RNX68djgpJenehA9visBtOxODfZFnw/0KZKPS0+/gMskWtvcXHm475e7HNv+cesXcMyYV5cxW7ObyI+N3CAoYXUN5V+y+IMY8WLzMNGD049wzUyRThcvG7NC1E9TYU1g6I+awQ1lLCr4htWNeSGXW5kCZRFjN9M2d0yvHN926/yA7Gaw4Bp8V4HOWQycqeniLZ0YOybn7PAzAxe85CjnhHSTjVDLmr3YBnLwPLN3XEiJ6ZZDKdRxQZw2sXl9XnSrMmYApvlBjpWQ3x0ptTYYBXkhrqjrIOyoBVPayGVnVzUulOeZwnhM+PutCoV1rVENADjxr8fRBDNnCLa+ZTjoebk4mpMk+zRuWbBwn/3ZRUiFEoRndfkBGK8DJQmzXDI6+qm3bSRIZ+87NH+yMRSi2URaDWDcMXaIo9KQWMTF2Ge/F0Go42Lk= tom@bomdia']
+     sshKeys: "{{ssh_keys}}"
 
   mariadb:
    properties:
@@ -74,5 +78,6 @@ volumes:
      image: 'ef452aa5-8307-11ec-bda6-02086196891f'
      bus: VIRTIO
      imagePassword: 'ionos1u1'
+     sshKeys: "{{ssh_keys}}"
 
 

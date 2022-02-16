@@ -4,3 +4,45 @@
   hosts: localhost
   roles:
     - rz
+
+- name: 'Run basic installation on new hosts'
+  remote_user: root
+  hosts: all
+  pre_tasks:
+    - name: 'Setup until set up'
+      setup:
+      register: result
+      until: not result.failed
+      delay: 15
+      retries: 10
+  roles:
+    - base
+
+- name: 'mariadb'
+  hosts: mariadb
+  roles:
+    - mariadb
+
+- name: 'Build cuboid'
+  hosts: localhost
+  tasks:
+    - name: 'Clone the project'
+      git:
+        repo: "{{project.repo}}"
+        dest: "{{project.stage_dir}}"
+    
+    - name: 'Empty dist directory'
+      file:
+        path: "{{project.stage_dir}}/dist"
+        state: absent
+
+    - name: 'Build'
+      make:
+        chdir: "{{project.stage_dir}}"
+
+- name: 'Deploy cuboid'
+  hosts: cuboid
+  roles:
+    - cuboid
+
+
