@@ -43,4 +43,28 @@
   roles:
     - cuboid
 
+- name: 'Test cuboid webapp'
+  remote_user: root
+  hosts: cuboid
+  tasks:
+    - name: 'Request a cuboid'
+      uri:
+        url: "http://{{inventory_hostname}}/v1/cuboids?a=1&b=2&c=3"
+        method: GET
+      register: result
 
+    - name: 'Test with parameters'
+      fail:
+        msg: "Test failed with result: {{result}}"
+      when: "result.json is not defined or result.json.volume != '6'"
+
+    - name: 'Request a cuboid'
+      uri:
+        url: "http://{{inventory_hostname}}/v1/cuboids"
+        method: GET
+      register: result
+
+    - name: 'Test without parameters'
+      fail:
+        msg: "Test failed with result: {{result}}"
+      when: "result.json is not defined or result.json == []"
