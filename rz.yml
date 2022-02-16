@@ -9,12 +9,10 @@
   remote_user: root
   hosts: all
   pre_tasks:
-    - name: 'Setup until set up'
-      setup:
-      register: result
-      until: not result.failed
-      delay: 15
-      retries: 10
+    - name: 'Wait'
+      wait_for_connection:
+        delay: 10
+        sleep: 5
   roles:
     - base
 

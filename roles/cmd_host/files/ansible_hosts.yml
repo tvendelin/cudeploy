@@ -27,6 +27,7 @@ all:
         85.215.239.34
       vars:
         cuboid_dir: '/opt/cuboid'
+        dbhost: 85.215.233.125
     mariadb:
       hosts:
         85.215.233.125
